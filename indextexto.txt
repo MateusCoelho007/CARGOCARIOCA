@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARGO CARIOCA - Seu Emprego no Rio Começa Aqui</title>
+    <meta name="description" content="Portal oficial de empregos do Rio de Janeiro. Vagas efetivas, concursos, estágios e oportunidades para jovens aprendizes. Conectamos talentos cariocas às melhores empresas.">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* === CONFIGURAÇÕES GERAIS === */
+        :root {
+            --primary: #003366;
+            --secondary: #FF6B35;
+            --accent: #00A86B;
+            --light: #F8F9FA;
+            --dark: #1A1A2E;
+            --gray: #6C757D;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Open Sans', sans-serif; color: var(--dark); background: #ffffff; line-height: 1.6; }
+        
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; 
+               border-radius: var(--radius); font-weight: 600; cursor: pointer; border: none; transition: var(--transition);
+               font-family: 'Poppins', sans-serif; font-size: 1rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, #004080 100%); color: white; 
+                      box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 51, 102, 0.3); }
+        
+        .tag { display: inline-flex; align-items: center; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; 
+               font-weight: 600; margin-right: 10px; margin-bottom: 8px; border: 2px solid transparent; }
+        .tag-efetivo { background-color: #E8F5E9; color: #2E7D32; border-color: #C8E6C9; }
+        .tag-concurso { background-color: #E3F2FD; color: #1565C0; border-color: #BBDEFB; }
+        .tag-estagio { background-color: #FFF3E0; color: #EF6C00; border-color: #FFE0B2; }
+        .tag-aprendiz { background-color: #F3E5F5; color: #7B1FA2; border-color: #E1BEE7; }
+        .tag-voluntario { background-color: #FFEBEE; color: #C62828; border-color: #FFCDD2; }
+
+        /* === HEADER === */
+        header { background-color: white; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
+                     border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem; }
+        .logo-text h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
+                       -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .logo-text .slogan { font-size: 0.85rem; color: var(--gray); font-weight: 500; margin-top: 2px; }
+        
+        nav ul { display: flex; list-style: none; gap: 30px; align-items: center; }
+        nav a { font-weight: 600; color: var(--dark); padding: 8px 0; position: relative; font-size: 0.95rem; }
+        nav a:hover { color: var(--primary); }
+        nav a:after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; 
+                     background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.3s ease; }
+        nav a:hover:after { width: 100%; }
+        
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary); 
+                          cursor: pointer; width: 40px; height: 40px; border-radius: 8px; align-items: center; justify-content: center; }
+
+        /* === HERO === */
+        .hero { padding: 100px 20px 80px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); position: relative; overflow: hidden; }
+        .hero:before { content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%; 
+                      background: linear-gradient(135deg, rgba(0, 51, 102, 0.05) 0%, rgba(255, 107, 53, 0.05) 100%); 
+                      clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+        .hero-content { max-width: 700px; position: relative; z-index: 1; }
+        .hero h2 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 20px; 
+                  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
+                  -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: var(--gray); margin-bottom: 40px; max-width: 600px; }
+        
+        .hero-stats { display: flex; gap: 40px; margin-top: 60px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .stat-label { font-size: 0.9rem; color: var(--gray); margin-top: 5px; }
+
+        /* === SEARCH === */
+        .search-section { margin-top: -40px; position: relative; z-index: 2; }
+        .search-card { background: white; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .search-box { display: flex; gap: 15px; margin-bottom: 25px; }
+        .search-input { flex: 1; padding: 18px 24px; border: 2px solid #e0e0e0; border-radius: var(--radius); 
+                       font-size: 1rem; transition: var(--transition); font-family: 'Open Sans', sans-serif; }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); }
+        
+        .filter-title { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: var(--primary); }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+        .filter-btn { padding: 12px 24px; background: white; border: 2px solid #e9ecef; border-radius: var(--radius); 
+                     cursor: pointer; font-weight: 600; transition: var(--transition); display: flex; align-items: center; gap: 8px; color: var(--dark); }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+        .filter-btn.active { background: linear-gradient(135deg, var(--primary) 0%, #004080 100%); color: white; 
+                           border-color: var(--primary); box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2); }
+
+        /* === VAGAS === */
+        .vagas-container { padding: 80px 20px; background-color: var(--light); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+        .section-title { font-size: 2.2rem; position: relative; display: inline-block; }
+        .section-title:after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 4px; 
+                             background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        
+        .sort-select { padding: 12px 20px; border-radius: var(--radius); border: 2px solid #e0e0e0; background: white; 
+                      font-family: 'Open Sans', sans-serif; font-weight: 600; color: var(--dark); cursor: pointer; min-width: 200px; }
+        
+        .vagas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .vaga-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); 
+                    transition: var(--transition); border: 1px solid rgba(0, 0, 0, 0.05); height: 100%; display: flex; flex-direction: column; }
+        .vaga-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); border-color: var(--primary); }
+        
+        .vaga-content { padding: 28px; flex-grow: 1; display: flex; flex-direction: column; }
+        .vaga-title { font-size: 1.4rem; margin-bottom: 12px; color: var(--dark); line-height: 1.3; }
+        .vaga-company { color: var(--primary); font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        
+        .vaga-meta { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; flex-grow: 1; }
+        .meta-item { display: flex; align-items: center; gap: 10px; color: var(--gray); font-size: 0.95rem; }
+        .meta-item i { width: 20px; color: var(--primary); }
+        
+        .vaga-desc { color: #555; font-size: 0.95rem; margin-bottom: 25px; display: -webkit-box; -webkit-line-clamp: 3; 
+                    -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
+        
+        .vaga-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; 
+                      padding-top: 25px; border-top: 1px solid #eee; }
+        .vaga-salary { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+        .vaga-date { font-size: 0.85rem; color: var(--gray); }
+
+        /* === LOADING === */
+        .loading { text-align: center; padding: 60px 20px; grid-column: 1 / -1; }
+        .loading-spinner { width: 60px; height: 60px; border: 5px solid #f3f3f3; border-top: 5px solid var(--primary); 
+                          border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .no-vagas { text-align: center; padding: 80px 20px; grid-column: 1 / -1; background: white; 
+                   border-radius: var(--radius); box-shadow: var(--shadow); }
+        .no-vagas i { font-size: 4rem; color: #e0e0e0; margin-bottom: 20px; }
+        
+        .load-more { text-align: center; margin-top: 40px; }
+
+        /* === FEATURES === */
+        .features { padding: 80px 20px; background: white; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
+        .feature-card { text-align: center; padding: 40px 30px; background: var(--light); border-radius: var(--radius); transition: var(--transition); }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
+        .feature-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary) 0%, #004080 100%); 
+                       border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; color: white; font-size: 2rem; }
+
+        /* === NEWSLETTER === */
+        .newsletter { padding: 80px 20px; background: linear-gradient(135deg, var(--primary) 0%, #004080 100%); color: white; text-align: center; }
+        .newsletter h2 { color: white; font-size: 2.5rem; margin-bottom: 20px; }
+        .newsletter-form { max-width: 500px; margin: 0 auto; display: flex; gap: 15px; }
+        .newsletter-input { flex: 1; padding: 18px 24px; border-radius: var(--radius); border: none; font-size: 1rem; font-family: 'Open Sans', sans-serif; }
+
+        /* === FOOTER === */
+        footer { background-color: var(--dark); color: #b0b7c3; padding: 60px 20px 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 50px; }
+        .footer-col h4 { color: white; font-size: 1.2rem; margin-bottom: 25px; position: relative; padding-bottom: 15px; }
+        .footer-col h4:after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; 
+                              background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col a { color: #b0b7c3; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .footer-col a:hover { color: white; padding-left: 5px; }
+        
+        .social-links { display: flex; gap: 15px; margin-top: 25px; }
+        .social-link { width: 45px; height: 45px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; 
+                      display: flex; align-items: center; justify-content: center; color: white; transition: var(--transition); }
+        .social-link:hover { background: var(--secondary); transform: translateY(-3px); }
+        
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); 
+                    font-size: 0.9rem; color: #8a94a6; }
+
+        /* === RESPONSIVIDADE === */
+        @media (max-width: 768px) {
+            .header-container { padding: 15px; }
+            nav ul { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .hero h2 { font-size: 2.3rem; }
+            .search-box { flex-direction: column; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+            .vagas-grid { grid-template-columns: 1fr; }
+            .newsletter-form { flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CARGO CARIOCA</h1>
+                    <span class="slogan">Seu emprego no Rio começa aqui</span>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#vagas"><i class="fas fa-search"></i> Vagas</a></li>
+                    <li><a href="#como-funciona"><i class="fas fa-play-circle"></i> Como Funciona</a></li>
+                    <li><a href="#empresas"><i class="fas fa-building"></i> Para Empresas</a></li>
+                    <li><a href="#contato"><i class="fas fa-headset"></i> Contato</a></li>
+                    <li><a href="#anunciar" class="btn btn-secondary"><i class="fas fa-bullhorn"></i> Anunciar Vaga</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Encontre o emprego dos seus sonhos no Rio</h2>
+                <p>Conectamos talentos cariocas às melhores oportunidades do estado. Vagas atualizadas diariamente com filtros inteligentes.</p>
+                <a href="#vagas" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Ver Vagas Disponíveis
+                </a>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="totalVagas">0</div>
+                        <div class="stat-label">Vagas Ativas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24h</div>
+                        <div class="stat-label">Atualização</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Gratuito</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEARCH -->
+    <div class="container search-section">
+        <div class="search-card">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Digite cargo, empresa ou palavra-chave...">
+                <button class="btn btn-primary" id="searchBtn">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+            
+            <div class="filter-title">
+                <i class="fas fa-filter"></i>
+                <h3>Filtrar por Tipo de Vaga:</h3>
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-layer-group"></i> Todas
+                </button>
+                <button class="filter-btn" data-filter="efetivo">
+                    <i class="fas fa-user-tie"></i> Efetivo/CLT
+                </button>
+                <button class="filter-btn" data-filter="concurso">
+                    <i class="fas fa-landmark"></i> Concurso Público
+                </button>
+                <button class="filter-btn" data-filter="estagio">
+                    <i class="fas fa-graduation-cap"></i> Estágio
+                </button>
+                <button class="filter-btn" data-filter="aprendiz">
+                    <i class="fas fa-user-graduate"></i> Jovem Aprendiz
+                </button>
+                <button class="filter-btn" data-filter="voluntario">
+                    <i class="fas fa-hands-helping"></i> Voluntário
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VAGAS -->
+    <section class="vagas-container" id="vagas">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Vagas em Destaque</h2>
+                <select class="sort-select" id="ordenarSelect">
+                    <option value="data">Mais Recentes</option>
+                    <option value="titulo">Título (A-Z)</option>
+                    <option value="salario">Maior Salário</option>
+                    <option value="empresa">Empresa</option>
+                </select>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Carregando vagas do Rio de Janeiro...</p>
+            </div>
+            
+            <div class="vagas-grid" id="vagasGrid"></div>
+            
+            <div class="no-vagas" id="noVagas" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>Nenhuma vaga encontrada</h3>
+                <p>Tente alterar os filtros ou termos de busca.</p>
+                <button class="btn btn-primary" id="limparFiltrosBtn">
+                    <i class="fas fa-redo"></i> Limpar Filtros
+                </button>
+            </div>
+            
+            <div class="load-more">
+                <button class="btn btn-secondary" id="carregarMaisBtn" style="display: none;">
+                    <i class="fas fa-plus"></i> Carregar Mais Vagas
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="como-funciona">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">Por que escolher o Cargo Carioca?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Atualização Diária</h3>
+                    <p>Novas vagas publicadas todos os dias. Nunca perca uma oportunidade.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-filter"></i></div>
+                    <h3>Filtros Inteligentes</h3>
+                    <p>Encontre exatamente o que procura com nosso sistema de filtros avançados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>100% Gratuito</h3>
+                    <p>Não cobramos nenhuma taxa para candidatos. Sempre será gratuito.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3>Foco no Rio</h3>
+                    <p>Especializado nas oportunidades do estado do Rio de Janeiro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter" id="contato">
+        <div class="container">
+            <h2>Receba as melhores vagas primeiro</h2>
+            <p>Cadastre-se e seja notificado sobre novas oportunidades no Rio de Janeiro.</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail" required>
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fas fa-paper-plane"></i> Cadastrar
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>CARGO CARIOCA</h4>
+                    <p>Conectando talentos cariocas às melhores oportunidades do Rio de Janeiro desde 2023.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="#vagas"><i class="fas fa-chevron-right"></i> Buscar Vagas</a></li>
+                        <li><a href="#como-funciona"><i class="fas fa-chevron-right"></i> Como Funciona</a></li>
+                        <li><a href="#empresas"><i class="fas fa-chevron-right"></i> Para Empresas</a></li>
+                        <li><a href="#contato"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Tipos de Vaga</h4>
+                    <ul>
+                        <li><a href="#" class="filter-link" data-filter="efetivo"><i class="fas fa-briefcase"></i> Efetivo/CLT</a></li>
+                        <li><a href="#" class="filter-link" data-filter="concurso"><i class="fas fa-landmark"></i> Concurso Público</a></li>
+                        <li><a href="#" class="filter-link" data-filter="estagio"><i class="fas fa-graduation-cap"></i> Estágio</a></li>
+                        <li><a href="#" class="filter-link" data-filter="aprendiz"><i class="fas fa-user-graduate"></i> Jovem Aprendiz</a></li>
+                        <li><a href="#" class="filter-link" data-filter="voluntario"><i class="fas fa-hands-helping"></i> Voluntário</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CARGO CARIOCA. Todos os direitos reservados.</p>
+                <p><i class="fas fa-sync-alt"></i> Vagas atualizadas automaticamente via Google Sheets</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURAÇÃO - SUA URL DO GOOGLE SHEETS
+        // ============================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZh2b3zv3emhgz79KXK6yGct3oXyLkEB0hpInnG0wbrxXkOVjWzJnZkNu3vnZ9n7TO/exec';
+        
+        // Variáveis globais
+        let todasVagas = [];
+        let vagasExibidas = [];
+        let limiteVagas = 6;
+        let filtroAtual = 'all';
+        let buscaAtual = '';
+        let ordenacaoAtual = 'data';
+
+        // Categoria para classes CSS
+        const categoriaClasses = {
+            'efetivo': 'tag-efetivo',
+            'concurso': 'tag-concurso',
+            'estagio': 'tag-estagio',
+            'aprendiz': 'tag-aprendiz',
+            'voluntario': 'tag-voluntario'
+        };
+
+        // ============================================
+        // 1. CARREGAR VAGAS DO GOOGLE SHEETS
+        // ============================================
+        async function carregarVagas() {
+            try {
+                console.log('🔄 Conectando ao Google Sheets...');
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log(`✅ ${data.vagas.length} vagas carregadas com sucesso!`);
+                
+                // Ordena por data (mais recente primeiro)
+                data.vagas.sort((a, b) => new Date(b.data) - new Date(a.data));
+                
+                todasVagas = data.vagas;
+                vagasExibidas = [...todasVagas];
+                
+                // Atualiza contador no hero
+                document.getElementById('totalVagas').textContent = todasVagas.length;
+                
+                // Esconde loading e exibe vagas
+                document.getElementById('loading').style.display = 'none';
+                exibirVagas();
+                aplicarFiltros();
+                
+                // Mostra notificação
+                mostrarNotificacao(`🎯 ${todasVagas.length} vagas carregadas do Rio de Janeiro`);
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar vagas:', error);
+                document.getElementById('loading').innerHTML = `
+                    <div style="color: #e74c3c; text-align: center;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem;"></i>
+                        <h3>Erro ao carregar vagas</h3>
+                        <p>Verifique sua conexão com a internet.</p>
+                        <button onclick="carregarVagas()" class="btn btn-primary" style="margin-top: 15px;">
+                            <i class="fas fa-redo"></i> Tentar Novamente
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // 2. EXIBIR VAGAS NA TELA
+        // ============================================
+        function exibirVagas() {
+            const grid = document.getElementById('vagasGrid');
+            const contador = document.getElementById('totalVagas');
+            const carregarMaisBtn = document.getElementById('carregarMaisBtn');
+            const noVagasDiv = document.getElementById('noVagas');
+            
+            // Limita o número de vagas exibidas
+            const vagasParaExibir = vagasExibidas.slice(0, limiteVagas);
+            
+            if (vagasParaExibir.length === 0) {
+                grid.innerHTML = '';
+                noVagasDiv.style.display = 'block';
+                carregarMaisBtn.style.display = 'none';
+            } else {
+                noVagasDiv.style.display = 'none';
+                grid.innerHTML = vagasParaExibir.map(vaga => criarCardVaga(vaga)).join('');
+                
+                // Mostra/Esconde botão "Carregar Mais"
+                if (vagasExibidas.length > limiteVagas) {
+                    carregarMaisBtn.style.display = 'inline-block';
+                } else {
+                    carregarMaisBtn.style.display = 'none';
+                }
+            }
+            
+            contador.textContent = vagasExibidas.length;
+        }
+
+        // ============================================
+        // 3. CRIAR CARD DE VAGA INDIVIDUAL
+        // ============================================
+        function criarCardVaga(vaga) {
+            const categoria = vaga.categoria || 'efetivo';
+            const categoriaUpper = categoria.charAt(0).toUpperCase() + categoria.slice(1).toUpperCase();
+            
+            // Formata a data
+            const dataFormatada = formatarData(vaga.data);
+            
+            // Determina ícone baseado na categoria
+            const iconeCategoria = {
+                'efetivo': 'fa-user-tie',
+                'concurso': 'fa-landmark',
+                'estagio': 'fa-graduation-cap',
+                'aprendiz': 'fa-user-graduate',
+                'voluntario': 'fa-hands-helping'
+            }[categoria] || 'fa-briefcase';
+            
+            return `
+            <article class="vaga-card" data-categoria="${categoria}">
+                <div class="vaga-content">
+                    <span class="tag ${categoriaClasses[categoria]}">
+                        <i class="fas ${iconeCategoria}"></i> ${categoriaUpper}
+                    </span>
+                    <h3 class="vaga-title">${vaga.titulo || 'Vaga sem título'}</h3>
+                    <p class="vaga-company">
+                        <i class="far fa-building"></i> ${vaga.empresa || 'Empresa não informada'}
+                    </p>
+                    
+                    <div class="vaga-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${vaga.localizacao || 'Rio de Janeiro - RJ'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>${vaga.salario || 'A combinar'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>Publicada: ${dataFormatada}</span>
+                        </div>
+                    </div>
+                    
+                    <p class="vaga-desc">${vaga.descricao || 'Descrição não disponível.'}</p>
+                    
+                    <div class="vaga-footer">
+                        <div>
+                            <div class="vaga-salary">${vaga.salario || 'Salário a combinar'}</div>
+                            <div class="vaga-date">${dataFormatada}</div>
+                        </div>
+                        <a href="${vaga.link_vaga || '#'}" target="_blank" class="btn btn-primary btn-sm" style="padding: 10px 20px;">
+                            Candidatar-se <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            `;
+        }
+
+        // ============================================
+        // 4. FUNÇÕES AUXILIARES
+        // ============================================
+        function formatarData(dataString) {
+            if (!dataString) return 'Data não informada';
+            
+            try {
+                // Tenta converter para data
+                let data = new Date(dataString);
+                
+                // Se for inválida, tenta parsear formato brasileiro
+                if (isNaN(data.getTime())) {
+                    const partes = dataString.split('/');
+                    if (partes.length === 3) {
+                        data = new Date(partes[2], partes[1] - 1, partes[0]);
+                    }
+                }
+                
+                if (isNaN(data.getTime())) {
+                    return dataString;
+                }
+                
+                return data.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            } catch {
+                return dataString;
+            }
+        }
+
+        function extrairNumeroSalario(salarioStr) {
+            if (!salarioStr) return 0;
+            
+            // Procura por números no formato R$ X.XXX,XX ou X,XXX.XX
+            const match = salarioStr.match(/(\d{1,3}(?:\.\d{3})*(?:,\d{2})?|\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d+(?:[.,]\d+)?)/);
+            
+            if (match) {
+                // Remove pontos e troca vírgula por ponto
+                const numStr = match[0].replace(/\./g, '').replace(',', '.');
+                const num = parseFloat(numStr);
+                return isNaN(num) ? 0 : num;
+            }
+            
+            return 0;
+        }
+
+        function mostrarNotificacao(mensagem) {
+            // Cria uma notificação temporária
+            const notificacao = document.createElement('div');
+            notificacao.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--accent);
+                color: white;
+                padding: 15px 25px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            notificacao.innerHTML = `<i class="fas fa-check-circle"></i> ${mensagem}`;
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                notificacao.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notificacao.remove(), 300);
+            }, 3000);
+        }
+
+        // ============================================
+        // 5. FILTRAGEM E ORDENAÇÃO
+        // ============================================
+        function aplicarFiltros() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const ordenarSelect = document.getElementById('ordenarSelect');
+            const carregarMaisBtn = document.getElementById('carregarMaisBtn');
+            const limparFiltrosBtn = document.getElementById('limparFiltrosBtn');
+            
+            // Função para atualizar vagas exibidas
+            function atualizarVagasExibidas() {
+                let resultado = [...todasVagas];
+                
+                // Aplica filtro de categoria
+                if (filtroAtual !== 'all') {
+                    resultado = resultado.filter(vaga => vaga.categoria === filtroAtual);
+                }
+                
+                // Aplica busca
+                if (buscaAtual) {
+                    const buscaLower = buscaAtual.toLowerCase();
+                    resultado = resultado.filter(vaga => 
+                        (vaga.titulo && vaga.titulo.toLowerCase().includes(buscaLower)) ||
+                        (vaga.empresa && vaga.empresa.toLowerCase().includes(buscaLower)) ||
+                        (vaga.descricao && vaga.descricao.toLowerCase().includes(buscaLower)) ||
+                        (vaga.localizacao && vaga.localizacao.toLowerCase().includes(buscaLower))
+                    );
+                }
+                
+                // Aplica ordenação
+                ordenacaoAtual = ordenarSelect.value;
+                switch (ordenacaoAtual) {
+                    case 'titulo':
+                        resultado.sort((a, b) => (a.titulo || '').localeCompare(b.titulo || ''));
+                        break;
+                    case 'salario':
+                        resultado.sort((a, b) => {
+                            const numA = extrairNumeroSalario(a.salario);
+                            const numB = extrairNumeroSalario(b.salario);
+                            return numB - numA;
+                        });
+                        break;
+                    case 'empresa':
+                        resultado.sort((a, b) => (a.empresa || '').localeCompare(b.empresa || ''));
+                        break;
+                    case 'data':
+                    default:
+                        resultado.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+                }
+                
+                vagasExibidas = resultado;
+                limiteVagas = 6;
+                exibirVagas();
+            }
+            
+            // Evento dos botões de filtro
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    filtroAtual = this.getAttribute('data-filter');
+                    atualizarVagasExibidas();
+                    
+                    // Scroll para vagas
+                    document.getElementById('vagas').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Evento da busca
+            searchInput.addEventListener('input', function() {
+                buscaAtual = this.value;
+                atualizarVagasExibidas();
+            });
+            
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                buscaAtual = searchInput.value;
+                atualizarVagasExibidas();
+            });
+            
+            // Evento da ordenação
+            ordenarSelect.addEventListener('change', atualizarVagasExibidas);
+            
+            // Evento do botão "Carregar Mais"
+            carregarMaisBtn.addEventListener('click', function() {
+                limiteVagas += 6;
+                exibirVagas();
+            });
+            
+            // Evento do botão "Limpar Filtros"
+            limparFiltrosBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                buscaAtual = '';
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                filterButtons[0].classList.add('active');
+                filtroAtual = 'all';
+                ordenarSelect.value = 'data';
+                atualizarVagasExibidas();
+            });
+            
+            // Links de filtro no footer
+            document.querySelectorAll('.filter-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filtro = this.getAttribute('data-filter');
+                    const botaoFiltro = document.querySelector(`.filter-btn[data-filter="${filtro}"]`);
+                    if (botaoFiltro) {
+                        botaoFiltro.click();
+                        document.getElementById('vagas').scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // 6. MENU MOBILE
+        // ============================================
+        function configurarMenuMobile() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                const isVisible = navMenu.style.display === 'flex';
+                navMenu.style.display = isVisible ? 'none' : 'flex';
+                
+                if (!isVisible) {
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '70px';
+                    navMenu.style.right = '20px';
+                    navMenu.style.background = 'white';
+                    navMenu.style.padding = '25px';
+                    navMenu.style.borderRadius = 'var(--radius)';
+                    navMenu.style.boxShadow = 'var(--shadow)';
+                    navMenu.style.width = '250px';
+                    navMenu.style.gap = '20px';
+                }
+            });
+            
+            // Fecha menu ao clicar em um link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        navMenu.style.display = 'none';
+                    }
+                });
+            });
+            
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    navMenu.style.display = '';
+                }
+            });
+        }
+
+        // ============================================
+        // 7. NEWSLETTER FORM
+        // ============================================
+        function configurarNewsletter() {
+            const newsletterForm = document.getElementById('newsletterForm');
+            
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // Simulação de envio
+                mostrarNotificacao(`📧 Obrigado! Você receberá as vagas em ${email}`);
+                this.reset();
+            });
+        }
+
+        // ============================================
+        // 8. INICIALIZAR TUDO
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando Cargo Carioca...');
+            
+            // Configurar componentes
+            configurarMenuMobile();
+            configurarNewsletter();
+            
+            // Carregar vagas do Google Sheets
+            carregarVagas();
+            
+            // Atualizar automaticamente a cada 10 minutos
+            setInterval(() => {
+                console.log('🔄 Atualizando vagas automaticamente...');
+                carregarVagas();
+            }, 600000); // 10 minutos
+            
+            // Adicionar estilos para animações
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // ============================================
+        // 9. ERRO HANDLING SIMPLES
+        // ============================================
+        window.addEventListener('error', function(e) {
+            console.error('Erro global:', e.error);
+            mostrarNotificacao('⚠️ Ocorreu um erro. Recarregue a página.');
+        });
+    </script>
+</body>
+</html>
